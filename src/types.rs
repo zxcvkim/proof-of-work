@@ -1,6 +1,8 @@
+use bincode::{Decode, Encode};
+
 use crate::Hash;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Encode, Decode)]
 pub struct Block {
     prev_hash: Hash,
     content: String,
@@ -34,6 +36,13 @@ impl Block {
         self.nonce
     }
 
+    pub fn hash(&self) -> Hash {
+        let config = bincode::config::standard();
+        let bytes = bincode::encode_to_vec(self, config).unwrap();
+
+        Hash::hash(&bytes)
+    }
+
     pub fn mine(&mut self, steps: u64) -> bool {
         let prefix = "0".repeat(self.difficulty);
 
@@ -64,7 +73,7 @@ pub struct BlockChain {
 
 impl BlockChain {
     pub fn new() -> Self {
-        let genesis_block = Block::new(Hash::zero(), "hello world!".to_string(), 3, 0);
+        let genesis_block = Block::new(Hash::zero(), "hello world!".to_string(), 0, 0);
         Self {
             blocks: vec![genesis_block],
         }
