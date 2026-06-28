@@ -45,8 +45,40 @@ impl Block {
             if hash_string.starts_with(&prefix) {
                 return true;
             }
+
+            if let Some(new_nonce) = self.nonce.checked_add(1) {
+                self.nonce = new_nonce;
+            } else {
+                self.nonce = 0;
+            }
         }
 
         false
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct BlockChain {
+    blocks: Vec<Block>,
+}
+
+impl BlockChain {
+    pub fn new() -> Self {
+        let genesis_block = Block::new(Hash::zero(), "hello world!".to_string(), 3, 0);
+        Self {
+            blocks: vec![genesis_block],
+        }
+    }
+
+    pub fn blocks(&self) -> &[Block] {
+        &self.blocks
+    }
+
+    pub fn latest_block(&self) -> Option<&Block> {
+        self.blocks.last()
+    }
+
+    pub fn add_block(&mut self, block: Block) {
+        self.blocks.push(block);
     }
 }
