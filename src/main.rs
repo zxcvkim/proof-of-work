@@ -18,7 +18,7 @@ fn main() {
         if new_block.mine(u64::MAX) {
             let duration = start_time.elapsed();
             let message = format!(
-                "{} mined successfully! (Nonce: {}, Time: {:.3}s",
+                "{} mined successfully! (Nonce: {}, Time: {:.3}s)",
                 content,
                 new_block.nonce(),
                 duration.as_secs_f32()

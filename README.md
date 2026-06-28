@@ -2,4 +2,4 @@
 
 # 🦀 proof-of-work (in Rust)
 
-A simple block mining simulator
+A simple block mining simulator.
