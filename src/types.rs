@@ -1,4 +1,4 @@
-use crate::sha256::Hash;
+use crate::Hash;
 
 #[derive(Debug, Clone)]
 pub struct Block {
